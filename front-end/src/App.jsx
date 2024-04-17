@@ -12,7 +12,8 @@ function App() {
           throw new Error('Failed to fetch cards');
         }
         const data = await response.json();
-        setCards(data);
+        console.log(data.rows)
+        setCards(data.rows);
       } catch (error) {
         console.error('Error fetching cards:', error);
       }
@@ -26,8 +27,8 @@ function App() {
       {cards.map((card, index) => (
         <div key={index} className="card">
           <div className="card-body">
-            <h5 className="card-title">{card.title}</h5>
-            <p className="card-text">{card.content}</p>
+            <h5 className="card-title">{card.name}</h5>
+            <p className="card-text">{card.description}</p>
           </div>
         </div>
       ))}
