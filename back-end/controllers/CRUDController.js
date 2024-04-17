@@ -17,14 +17,15 @@ const getKeyboardByID = async (req, res) => {
 }
 
 const addKeyboard = async (req, res) => {
-    const { name, description } = req.body
+    const { name, description, imageurl } = req.body
+    const price = parseFloat(req.body.price)
     const client = await pool.connect()
     client.query(queries.checkNameTaken, [name], (err, result) => {
         if (result.rows.length) {
             res.status(409).send("Keyboard name taken")
         }
         else {
-            client.query(queries.addKeyboard, [name, description], (err, result) => {
+            client.query(queries.addKeyboard, [name, description, imageurl, price], (err, result) => {
                 if (err) throw err;
                 res.status(201).send(result)
             })
@@ -52,7 +53,8 @@ const deleteKeyboard = async (req, res) => {
 
 const updateKeyboard = async (req, res) => {
     const id = parseInt(req.params.id);
-    var { name, description } = req.body
+    var { name, description, imageurl } = req.body
+    var price = parseFloat(req.body.price)
 
     const client = await pool.connect()
     client.query(queries.getKeyboardByID, [id], (err, result) => {
@@ -66,7 +68,13 @@ const updateKeyboard = async (req, res) => {
             if (!description){
                 description = result.rows[0].description
             }
-            client.query(queries.updateKeyboard, [name, description, id], (err, result) => {
+            if (!imageurl){
+                imageurl = result.rows[0].imageurl
+            }
+            if (!price){
+                price = result.rows[0].price
+            }
+            client.query(queries.updateKeyboard, [name, description, imageurl, price, id], (err, result) => {
                 if (err) throw err;
                 res.status(200).send(result)
             })
