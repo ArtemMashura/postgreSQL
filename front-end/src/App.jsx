@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
   const [cards, setCards] = useState([]);
@@ -7,15 +7,15 @@ function App() {
   useEffect(() => {
     async function fetchCards() {
       try {
-        const response = await fetch('http://localhost:3500');
+        const response = await fetch("http://localhost:3500");
         if (!response.ok) {
-          throw new Error('Failed to fetch cards');
+          throw new Error("Failed to fetch cards");
         }
         const data = await response.json();
-        console.log(data.rows)
+        console.log(data.rows);
         setCards(data.rows);
       } catch (error) {
-        console.error('Error fetching cards:', error);
+        console.error("Error fetching cards:", error);
       }
     }
 
