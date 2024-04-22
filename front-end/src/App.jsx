@@ -22,14 +22,35 @@ function App() {
     fetchCards();
   }, []);
 
+  const DeleteCard = async (id) => {
+    try {
+      const response = await fetch(`http://localhost:3500/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete card");
+      }
+      this.fetchCards();
+    } catch (error) {
+      console.error("Error deleting card:", error);
+    }
+  };
+
   return (
-    <div>
+    <div className="container">
       {cards.map((card, index) => (
         <div key={index} className="card">
+          <img src={card.image} className="card-img" alt="card-img"></img>
           <div className="card-body">
-            <h5 className="card-title">{card.name}</h5>
+            <div className="title-price">
+              <h5 className="card-title">{card.name}</h5>
+              <h5 className="price">{card.price}$</h5>
+            </div>
             <p className="card-text">{card.description}</p>
           </div>
+          <button className="delete" onClick={() => DeleteCard(card.id)}>
+            delete
+          </button>
         </div>
       ))}
     </div>
