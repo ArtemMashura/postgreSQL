@@ -14,12 +14,11 @@
 .card-img {
   width: 18rem;
   height: 18rem;
-  object-fit: cover;
+  object-fit: contain;
 }
 .title-price {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 .card-title {
   width: 70%;
