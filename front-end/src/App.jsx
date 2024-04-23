@@ -40,7 +40,7 @@ function App() {
     <div className="container">
       {cards.map((card, index) => (
         <div key={index} className="card">
-          <img src={card.image} className="card-img" alt="card-img"></img>
+          <img src={card.imageurl} className="card-img" alt="card-img"></img>
           <div className="card-body">
             <div className="title-price">
               <h5 className="card-title">{card.name}</h5>
