@@ -7,28 +7,33 @@ function App() {
   const [editingCard, setEditingCard] = useState(null);
   const [newCard, setNewCard] = useState({
     imageurl: "",
-    title: "",
+    name: "",
     price: "",
     description: "",
   });
 
+  if (import.meta.hot) {
+    import.meta.hot.accept(() => import.meta.hot.invalidate())
+  } 
+
   useEffect(() => {
-    async function fetchCards() {
-      try {
-        const response = await fetch("http://localhost:3500");
-        if (!response.ok) {
-          throw new Error("Failed to fetch cards");
-        }
-        const data = await response.json();
-        console.log(data.rows);
-        setCards(data.rows);
-      } catch (error) {
-        console.error("Error fetching cards:", error);
-      }
-    }
+    
 
     fetchCards();
   }, []);
+
+  const fetchCards = async () => {
+    try {
+      const response = await fetch("http://localhost:3500");
+      if (!response.ok) {
+        throw new Error("Failed to fetch cards");
+      }
+      const data = await response.json();
+      setCards(data.rows);
+    } catch (error) {
+      console.error("Error fetching cards:", error);
+    }
+  }
 
   const DeleteCard = async (id) => {
     try {
@@ -38,13 +43,14 @@ function App() {
       if (!response.ok) {
         throw new Error("Failed to delete card");
       }
-      this.fetchCards();
+      fetchCards();
     } catch (error) {
       console.error("Error deleting card:", error);
     }
   };
 
-  const updateCard = async () => {
+  const updateCard = async (e) => {
+    e.preventDefault()
     try {
       const response = await fetch(`http://localhost:3500/${editingCard.id}`, {
         method: "PUT",
@@ -53,34 +59,42 @@ function App() {
         },
         body: JSON.stringify(editingCard),
       });
+      console.log(response)
       if (!response.ok) {
         throw new Error("Failed to update card");
       }
-      this.fetchCards();
+      fetchCards();
     } catch (error) {
       console.error("Error updating card:", error);
     }
   };
 
-  const addNewCard = async () => {
+  const handleClick = (e) => {
+    e.preventDefault();
+  };
+
+  const addNewCard = async (e) => {
+    e.preventDefault()
     try {
-      const response = await fetch("http://localhost:3500", {
+      console.log(newCard)
+      const response = await fetch("http://localhost:3500/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newCard),
       });
+      console.log(response)
       if (!response.ok) {
         throw new Error("Failed to add new card");
       }
       setNewCard({
         imageurl: "",
-        title: "",
+        name: "",
         price: "",
         description: "",
       });
-      this.fetchCards();
+      fetchCards();
     } catch (error) {
       console.error("Error adding new card:", error);
     }
@@ -102,9 +116,17 @@ function App() {
     }));
   };
 
+  const handleEditCard = (e) => {
+    const { name, value } = e.target;
+    setEditingCard((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   return (
     <div className="container">
-      <button className="new" onClick={() => setFormVisible(true)}>
+      <button className="new" onClick={(e) => setFormVisible(true)}>
         add new one
       </button>
       <div className="cards">
@@ -114,21 +136,21 @@ function App() {
               type="text"
               placeholder="Img-url"
               value={editingCard ? editingCard.imageurl : newCard.imageurl}
-              onChange={handleChangeNewCard}
+              onChange={editingCard ? handleEditCard : handleChangeNewCard}
               name="imageurl"
             />
             <input
               type="text"
-              placeholder="Title"
-              value={editingCard ? editingCard.title : newCard.title}
-              onChange={handleChangeNewCard}
-              name="title"
+              placeholder="Name"
+              value={editingCard ? editingCard.name : newCard.name}
+              onChange={editingCard ? handleEditCard : handleChangeNewCard}
+              name="name"
             />
             <input
               type="text"
               placeholder="Price"
               value={editingCard ? editingCard.price : newCard.price}
-              onChange={handleChangeNewCard}
+              onChange={editingCard ? handleEditCard : handleChangeNewCard}
               name="price"
             />
             <input
@@ -137,13 +159,13 @@ function App() {
               value={
                 editingCard ? editingCard.description : newCard.description
               }
-              onChange={handleChangeNewCard}
+              onChange={editingCard ? handleEditCard : handleChangeNewCard}
               name="description"
             />
             <button
               className="form-button"
               type="submit"
-              onClick={editingCard ? updateCard : addNewCard}
+              onClick={(e) => editingCard ? updateCard(e) : addNewCard(e)}
             >
               {editingCard ? "edit" : "add"}
             </button>
@@ -160,10 +182,10 @@ function App() {
               <p className="card-text">{card.description}</p>
             </div>
             <div className="buttons">
-              <button className="delete" onClick={() => DeleteCard}>
+              <button className="delete" onClick={() => DeleteCard(cards[index].id)}>
                 delete
               </button>
-              <button className="edit" onClick={openForm}>
+              <button className="edit" onClick={() => openForm(cards[index])}>
                 edit
               </button>
             </div>
