@@ -149,154 +149,27 @@ function App() {
             </button>
           </form>
         )}
-        <div className="card">
-          <img
-            src="https://www.daskeyboard.com/images/das-keyboard-6-professional/6-pro-top-view.jpeg"
-            className="card-img"
-            alt="card-img"
-          ></img>
-          <div className="card-body">
-            <div className="title-price">
-              <h5 className="card-title">Name1</h5>
-              <h5 className="price">120$</h5>
+        {cards.map((card, index) => (
+          <div key={index} className="card">
+            <img src={card.imageurl} className="card-img" alt="card-img"></img>
+            <div className="card-body">
+              <div className="title-price">
+                <h5 className="card-title">{card.name}</h5>
+                <h5 className="price">{card.price}$</h5>
+              </div>
+              <p className="card-text">{card.description}</p>
             </div>
-            <p className="card-text">Description</p>
-          </div>
-          <div className="buttons">
-            <button className="delete" onClick={() => DeleteCard}>
-              delete
-            </button>
-            <button className="edit" onClick={openForm}>
-              edit
-            </button>
-          </div>
-        </div>
-        <div className="card">
-          <img
-            src="https://www.daskeyboard.com/images/das-keyboard-6-professional/6-pro-top-view.jpeg"
-            className="card-img"
-            alt="card-img"
-          ></img>
-          <div className="card-body">
-            <div className="title-price">
-              <h5 className="card-title">Name2</h5>
-              <h5 className="price">120$</h5>
+            <div className="buttons">
+              <button className="delete" onClick={() => DeleteCard}>
+                delete
+              </button>
+              <button className="edit" onClick={openForm}>
+                edit
+              </button>
             </div>
-            <p className="card-text">Description</p>
           </div>
-          <div className="buttons">
-            <button className="delete" onClick={() => DeleteCard}>
-              delete
-            </button>
-            <button className="edit" onClick={() => DeleteCard}>
-              edit
-            </button>
-          </div>
-        </div>
-        <div className="card">
-          <img
-            src="https://www.daskeyboard.com/images/das-keyboard-6-professional/6-pro-top-view.jpeg"
-            className="card-img"
-            alt="card-img"
-          ></img>
-          <div className="card-body">
-            <div className="title-price">
-              <h5 className="card-title">Name3</h5>
-              <h5 className="price">120$</h5>
-            </div>
-            <p className="card-text">Description</p>
-          </div>
-          <div className="buttons">
-            <button className="delete" onClick={() => DeleteCard}>
-              delete
-            </button>
-            <button className="edit" onClick={() => DeleteCard}>
-              edit
-            </button>
-          </div>
-        </div>
-        <div className="card">
-          <img
-            src="https://www.daskeyboard.com/images/das-keyboard-6-professional/6-pro-top-view.jpeg"
-            className="card-img"
-            alt="card-img"
-          ></img>
-          <div className="card-body">
-            <div className="title-price">
-              <h5 className="card-title">Name4</h5>
-              <h5 className="price">120$</h5>
-            </div>
-            <p className="card-text">Description</p>
-          </div>
-          <div className="buttons">
-            <button className="delete" onClick={() => DeleteCard}>
-              delete
-            </button>
-            <button className="edit" onClick={() => DeleteCard}>
-              edit
-            </button>
-          </div>
-        </div>
-        <div className="card">
-          <img
-            src="https://www.daskeyboard.com/images/das-keyboard-6-professional/6-pro-top-view.jpeg"
-            className="card-img"
-            alt="card-img"
-          ></img>
-          <div className="card-body">
-            <div className="title-price">
-              <h5 className="card-title">Name</h5>
-              <h5 className="price">120$</h5>
-            </div>
-            <p className="card-text">Description</p>
-          </div>
-          <div className="buttons">
-            <button className="delete" onClick={() => DeleteCard}>
-              delete
-            </button>
-            <button className="edit" onClick={() => DeleteCard}>
-              edit
-            </button>
-          </div>
-        </div>
-        <div className="card">
-          <img
-            src="https://www.daskeyboard.com/images/das-keyboard-6-professional/6-pro-top-view.jpeg"
-            className="card-img"
-            alt="card-img"
-          ></img>
-          <div className="card-body">
-            <div className="title-price">
-              <h5 className="card-title">Name</h5>
-              <h5 className="price">120$</h5>
-            </div>
-            <p className="card-text">Description</p>
-          </div>
-          <div className="buttons">
-            <button className="delete" onClick={() => DeleteCard}>
-              delete
-            </button>
-            <button className="edit" onClick={() => DeleteCard}>
-              edit
-            </button>
-          </div>
-        </div>
+        ))}
       </div>
-      {/* {cards.map((card, index) => (
-        <div key={index} className="card">
-          <img src={card.imageurl} className="card-img" alt="card-img"></img>
-          <div className="card-body">
-            <div className="title-price">
-              <h5 className="card-title">{card.name}</h5>
-              <h5 className="price">{card.price}$</h5>
-            </div>
-            <p className="card-text">{card.description}</p>
-          </div>
-          <button className="delete" onClick={() => DeleteCard(card.id)}>
-            delete
-          </button>
-        </div>
-      ))} */}
     </div>
   );
 }
